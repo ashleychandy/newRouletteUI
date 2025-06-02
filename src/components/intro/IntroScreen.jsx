@@ -13,8 +13,8 @@ import {
   faRandom,
 } from '@fortawesome/free-solid-svg-icons';
 
-// CoinFlip Face component that shows the correct number of dots based on the value
-const CoinFlipFace = ({ value, className = '' }) => {
+// Roulette Face component that shows the correct number of dots based on the value
+const RouletteFace = ({ value, className = '' }) => {
   return (
     <div
       className={`bg-white/95 rounded-lg shadow-inner flex items-center justify-center ${className}`}
@@ -30,7 +30,7 @@ const CoinFlipFace = ({ value, className = '' }) => {
           />
         )}
 
-        {/* Top-Center Dot - not used in standard CoinFlip */}
+        {/* Top-Center Dot - not used in standard Roulette */}
         {false && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
@@ -90,7 +90,7 @@ const CoinFlipFace = ({ value, className = '' }) => {
           />
         )}
 
-        {/* Bottom-Center Dot - not used in standard CoinFlip */}
+        {/* Bottom-Center Dot - not used in standard Roulette */}
         {false && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
@@ -114,8 +114,8 @@ const CoinFlipFace = ({ value, className = '' }) => {
   );
 };
 
-// Animated CoinFlip component that rolls and changes value
-const RollingCoinFlip = ({ value, roll = true }) => {
+// Animated Roulette component that rolls and changes value
+const RollingRoulette = ({ value, roll = true }) => {
   return (
     <motion.div
       className="fixed -top-64 -left-64 z-0"
@@ -129,7 +129,7 @@ const RollingCoinFlip = ({ value, roll = true }) => {
       }
     >
       <div className="w-[500px] h-[500px] sm:w-[600px] sm:h-[600px] md:w-[800px] md:h-[800px] bg-gradient-to-br from-[#22AD74]/40 to-[#26c582]/40 rounded-xl shadow-xl flex items-center justify-center">
-        <CoinFlipFace value={value} className="w-[90%] h-[90%] opacity-90" />
+        <RouletteFace value={value} className="w-[90%] h-[90%] opacity-90" />
       </div>
     </motion.div>
   );
@@ -231,8 +231,8 @@ const IntroScreen = ({ onComplete }) => {
         animate="animate"
       />
 
-      {/* Large Transparent CoinFlip in background */}
-      <RollingCoinFlip value={currentStep + 1} roll={isRolling} />
+      {/* Large Transparent Roulette in background */}
+      <RollingRoulette value={currentStep + 1} roll={isRolling} />
 
       {/* Enhanced decorative elements */}
       <motion.div
@@ -390,7 +390,7 @@ const IntroScreen = ({ onComplete }) => {
                         Win 6X
                       </h3>
                       <p className="text-gray-700 text-lg">
-                        Win 6X your bet if the CoinFlip rolls your number.
+                        Win 6X your bet if the Roulette rolls your number.
                       </p>
                     </motion.div>
                   </div>
@@ -546,7 +546,7 @@ const IntroScreen = ({ onComplete }) => {
                         </h3>
                       </div>
                       <p className="text-gray-700 text-lg leading-relaxed">
-                        All CoinFlip rolls use blockchain's built-in{' '}
+                        All Roulette rolls use blockchain's built-in{' '}
                         <strong>VRF (Verifiable Random Function)</strong> to
                         generate truly random and tamper-proof outcomes.
                       </p>

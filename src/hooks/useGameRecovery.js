@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { useWallet } from '../components/wallet/WalletProvider';
-import { useCoinFlipContract } from './useCoinFlipContract';
+import { useRouletteContract } from './useRouletteContract';
 import { useNotification } from '../contexts/NotificationContext';
 import { usePollingService } from '../services/pollingService.jsx';
 
@@ -15,7 +15,7 @@ const BLOCK_THRESHOLD = 300;
  */
 export const useGameRecovery = ({ onSuccess, onError } = {}) => {
   const { account } = useWallet();
-  const { contract: CoinFlipContract } = useCoinFlipContract();
+  const { contract: RouletteContract } = useRouletteContract();
   const { refreshData, gameStatus } = usePollingService();
   const { addToast } = useNotification();
 
@@ -26,11 +26,11 @@ export const useGameRecovery = ({ onSuccess, onError } = {}) => {
     error: recoveryError,
   } = useMutation({
     mutationFn: async () => {
-      if (!account || !CoinFlipContract) {
+      if (!account || !RouletteContract) {
         throw new Error('Wallet not connected or contract not initialized');
       }
 
-      const tx = await CoinFlipContract.recoverOwnStuckGame();
+      const tx = await RouletteContract.recoverOwnStuckGame();
       const receipt = await tx.wait();
       return receipt;
     },
@@ -68,10 +68,10 @@ export const useGameRecovery = ({ onSuccess, onError } = {}) => {
       // If we need a specific address other than the current account,
       // we still need to make a direct contract call
       if (playerAddress && playerAddress !== account) {
-        if (!CoinFlipContract) return null;
+        if (!RouletteContract) return null;
 
         try {
-          const status = await CoinFlipContract.getGameStatus(playerAddress);
+          const status = await RouletteContract.getGameStatus(playerAddress);
           return processGameStatusForRecovery(status);
         } catch (error) {
           return null;
@@ -85,7 +85,7 @@ export const useGameRecovery = ({ onSuccess, onError } = {}) => {
 
       return null;
     },
-    [CoinFlipContract, account, gameStatus]
+    [RouletteContract, account, gameStatus]
   );
 
   // Helper function to process game status for recovery

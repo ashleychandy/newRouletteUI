@@ -595,9 +595,9 @@ export const parseGameResultEvent = (receipt, contractInterface = null) => {
             const possibleRolledNumberHex = '0x' + data.substring(0, 64);
             const possibleRolledNumber = parseInt(possibleRolledNumberHex, 16);
 
-            // Only consider valid CoinFlip numbers
+            // Only consider valid Roulette numbers
             if (possibleRolledNumber >= 1 && possibleRolledNumber <= 6) {
-              // If we found a valid CoinFlip number, make a best guess about the game result
+              // If we found a valid Roulette number, make a best guess about the game result
               return {
                 rolledNumber: possibleRolledNumber,
                 payout: BigInt(0),

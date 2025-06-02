@@ -9,7 +9,7 @@ const _RESULT_RECOVERED = 255;
 export const useBetHistory = ({
   pageSize = 10,
   _playerAddress = null, // Prefixed with underscore as unused
-  CoinFlipContract = null, // We don't actually need this directly anymore, but keeping for API compatibility
+  RouletteContract = null, // We don't actually need this directly anymore, but keeping for API compatibility
 } = {}) => {
   const {
     betHistory: allBets,
@@ -73,8 +73,8 @@ export const useBetHistory = ({
     }
 
     if (
-      !CoinFlipContract ||
-      typeof CoinFlipContract.getBetHistory !== 'function'
+      !RouletteContract ||
+      typeof RouletteContract.getBetHistory !== 'function'
     ) {
       return;
     }
@@ -84,7 +84,7 @@ export const useBetHistory = ({
     } catch (err) {
       // Handle error silently
     }
-  }, [isNewUser, CoinFlipContract, refreshData]);
+  }, [isNewUser, RouletteContract, refreshData]);
 
   // Fix dependency array to avoid infinite loops
   const refetch = useCallback(() => {

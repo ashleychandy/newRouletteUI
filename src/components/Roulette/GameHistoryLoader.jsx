@@ -6,7 +6,7 @@ const GameHistoryLoader = () => (
       <div key={i} className="animate-pulse">
         <div className="bg-secondary-800/10 px-4 py-3 rounded-lg border border-secondary-700/20">
           <div className="grid grid-cols-12 gap-2 items-center">
-            {/* CoinFlip number */}
+            {/* Roulette number */}
             <div className="col-span-1 w-9 h-9 rounded-md bg-secondary-700/30"></div>
 
             {/* Bet details */}

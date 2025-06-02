@@ -17,7 +17,7 @@ import { NETWORK_CONFIG, DEFAULT_NETWORK } from '../../config';
 import { checkRpcHealth, getAvailableProvider } from '../../utils/walletUtils';
 
 // Constants
-const WALLET_STORAGE_KEY = 'xdc_CoinFlip_wallet_connection';
+const WALLET_STORAGE_KEY = 'xdc_Roulette_wallet_connection';
 const CONNECTION_TIMEOUT = 10000; // 10 seconds
 
 // Create context
@@ -209,10 +209,10 @@ export const WalletProvider = ({ children }) => {
   useEffect(() => {
     // Check mainnet configuration
     const mainnetConfig = NETWORK_CONFIG?.mainnet;
-    if (!mainnetConfig?.contracts?.CoinFlip) {
+    if (!mainnetConfig?.contracts?.Roulette) {
       if (DEFAULT_NETWORK === 'mainnet') {
         addToast(
-          'Mainnet CoinFlip contract is not configured. Some features may not work.',
+          'Mainnet Roulette contract is not configured. Some features may not work.',
           'warning'
         );
       }
@@ -220,10 +220,10 @@ export const WalletProvider = ({ children }) => {
 
     // Check testnet configuration
     const testnetConfig = NETWORK_CONFIG?.apothem;
-    if (!testnetConfig?.contracts?.CoinFlip) {
+    if (!testnetConfig?.contracts?.Roulette) {
       if (DEFAULT_NETWORK === 'apothem') {
         addToast(
-          'Testnet CoinFlip contract is not configured. Some features may not work.',
+          'Testnet Roulette contract is not configured. Some features may not work.',
           'warning'
         );
       }
@@ -420,11 +420,11 @@ export const WalletProvider = ({ children }) => {
         }
         return walletState.contracts.token;
       },
-      getCoinFlipContract: () => {
-        if (!walletState.contracts?.CoinFlip) {
+      getRouletteContract: () => {
+        if (!walletState.contracts?.Roulette) {
           return null;
         }
-        return walletState.contracts.CoinFlip;
+        return walletState.contracts.Roulette;
       },
       // Enhanced error handler
       handleErrorWithToast,

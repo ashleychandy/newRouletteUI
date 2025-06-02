@@ -4,7 +4,7 @@ import {
   SUPPORTED_CHAIN_IDS,
   DEFAULT_NETWORK,
 } from '../config';
-import CoinFlipABI from '../contracts/abi/CoinFlip.json';
+import RouletteABI from '../contracts/abi/Roulette.json';
 import TokenABI from '../contracts/abi/GamaToken.json';
 
 /**
@@ -106,9 +106,9 @@ export const initializeContracts = async (
       );
     }
 
-    if (!networkConfig.contracts.CoinFlip) {
+    if (!networkConfig.contracts.Roulette) {
       throw new Error(
-        `CoinFlip contract address not configured for ${networkConfig.name}`
+        `Roulette contract address not configured for ${networkConfig.name}`
       );
     }
 
@@ -123,17 +123,17 @@ export const initializeContracts = async (
         signer
       );
 
-      // Create CoinFlip contract instance
-      const CoinFlipContract = new ethers.Contract(
-        networkConfig.contracts.CoinFlip,
-        CoinFlipABI.abi,
+      // Create Roulette contract instance
+      const RouletteContract = new ethers.Contract(
+        networkConfig.contracts.Roulette,
+        RouletteABI.abi,
         signer
       );
 
       if (setContracts) {
         setContracts({
           token: tokenContract,
-          CoinFlip: CoinFlipContract,
+          Roulette: RouletteContract,
         });
       }
 
@@ -141,7 +141,7 @@ export const initializeContracts = async (
         setLoadingStates(prev => ({ ...prev, contracts: false }));
       }
 
-      return { token: tokenContract, CoinFlip: CoinFlipContract };
+      return { token: tokenContract, Roulette: RouletteContract };
     } catch (contractError) {
       throw new Error(
         `Failed to create contract instances: ${contractError.message}`
@@ -152,7 +152,7 @@ export const initializeContracts = async (
       handleError(error, 'initializeContracts');
     }
     if (setContracts) {
-      setContracts({ token: null, CoinFlip: null });
+      setContracts({ token: null, Roulette: null });
     }
     if (setLoadingStates) {
       setLoadingStates(prev => ({ ...prev, contracts: false }));
@@ -186,7 +186,7 @@ export const switchNetwork = async (
     }
     // Clear contracts during network switch
     if (setContracts) {
-      setContracts({ token: null, CoinFlip: null });
+      setContracts({ token: null, Roulette: null });
     }
 
     // Check if already on the correct network
@@ -347,7 +347,7 @@ export const switchNetwork = async (
 
     // Reset contracts and provider on error
     if (setContracts) {
-      setContracts({ token: null, CoinFlip: null });
+      setContracts({ token: null, Roulette: null });
     }
     if (setProvider) {
       setProvider(null);

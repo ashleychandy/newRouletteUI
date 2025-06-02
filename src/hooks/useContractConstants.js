@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { useCoinFlipContract } from './useCoinFlipContract';
+import { useRouletteContract } from './useRouletteContract';
 
 export const useContractConstants = () => {
-  const { contract } = useCoinFlipContract();
+  const { contract } = useRouletteContract();
 
   const {
     data: constants,
@@ -44,8 +44,8 @@ export const useContractConstants = () => {
         RESULT_RECOVERED: Number(resultRecoveredValue),
         // Derived constants
         MIN_BET_AMOUNT: BigInt(1), // 1 token in wei
-        MAX_CoinFlip_NUMBER: 2, // TAILS (2)
-        MIN_CoinFlip_NUMBER: 1, // HEADS (1)
+        MAX_Roulette_NUMBER: 2, // TAILS (2)
+        MIN_Roulette_NUMBER: 1, // HEADS (1)
         GAME_TIMEOUT: 3600, // 1 hour in seconds
         BLOCK_THRESHOLD: 300, // Number of blocks to wait before recovery
       };
@@ -67,8 +67,8 @@ export const useContractConstants = () => {
       RESULT_FORCE_STOPPED: 254,
       RESULT_RECOVERED: 255,
       MIN_BET_AMOUNT: BigInt(1),
-      MAX_CoinFlip_NUMBER: 2, // TAILS (2)
-      MIN_CoinFlip_NUMBER: 1, // HEADS (1)
+      MAX_Roulette_NUMBER: 2, // TAILS (2)
+      MIN_Roulette_NUMBER: 1, // HEADS (1)
       GAME_TIMEOUT: 3600,
       BLOCK_THRESHOLD: 300,
     },

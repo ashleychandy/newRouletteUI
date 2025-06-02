@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { useCoinFlipContract } from './useCoinFlipContract';
+import { useRouletteContract } from './useRouletteContract';
 import { useWallet } from '../components/wallet/WalletProvider';
 
 export const useRequestTracking = requestId => {
-  const { contract } = useCoinFlipContract();
+  const { contract } = useRouletteContract();
   const { account } = useWallet();
 
   const {

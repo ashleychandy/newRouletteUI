@@ -18,7 +18,7 @@ import AppRoutes from './components/routes/AppRoutes.jsx';
 import { NotificationProvider } from './contexts/NotificationContext.jsx';
 import { NetworkProvider } from './contexts/NetworkContext.jsx';
 import { PollingProvider } from './services/pollingService.jsx';
-import { useCoinFlipContract } from './hooks/useCoinFlipContract.js';
+import { useRouletteContract } from './hooks/useRouletteContract.js';
 import useIntroScreen from './hooks/useIntroScreen.js';
 
 /**
@@ -75,11 +75,11 @@ function App() {
 
 // Wrapper component for the PollingProvider to have access to wallet and contract
 function PollingProviderWrapper({ children }) {
-  const { contract } = useCoinFlipContract();
+  const { contract } = useRouletteContract();
   const { account } = useWallet();
 
   return (
-    <PollingProvider CoinFlipContract={contract} account={account}>
+    <PollingProvider RouletteContract={contract} account={account}>
       {children}
     </PollingProvider>
   );

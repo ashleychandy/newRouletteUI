@@ -3,14 +3,14 @@ import { useContractConstants } from './useContractConstants.js';
 import { usePollingService } from '../services/pollingService.jsx';
 
 /**
- * Simplified custom hook to manage CoinFlip side display
+ * Simplified custom hook to manage Roulette side display
  *
  * @param {Object|null} result - The game result object
  * @param {Number|null} chosenNumber - The side chosen by the player (1=HEADS, 2=TAILS)
  * @param {Boolean} isRolling - Whether the Coin is currently flipping
  * @returns {Object} - The Coin side to display
  */
-export const useCoinFlipNumber = (result, chosenNumber, isRolling) => {
+export const useRouletteNumber = (result, chosenNumber, isRolling) => {
   const { constants } = useContractConstants();
   const { gameStatus } = usePollingService();
 

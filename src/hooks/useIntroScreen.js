@@ -10,7 +10,7 @@ const useIntroScreen = () => {
 
   // On mount, check if user has seen intro before
   useEffect(() => {
-    const introSeen = localStorage.getItem('gama_CoinFlip_intro_seen');
+    const introSeen = localStorage.getItem('gama_Roulette_intro_seen');
     if (introSeen === 'true') {
       setHasSeenIntro(true);
     }
@@ -19,13 +19,13 @@ const useIntroScreen = () => {
 
   // Mark intro as seen and store in localStorage
   const completeIntro = () => {
-    localStorage.setItem('gama_CoinFlip_intro_seen', 'true');
+    localStorage.setItem('gama_Roulette_intro_seen', 'true');
     setHasSeenIntro(true);
   };
 
   // Reset intro state (for testing or when features change)
   const resetIntro = () => {
-    localStorage.removeItem('gama_CoinFlip_intro_seen');
+    localStorage.removeItem('gama_Roulette_intro_seen');
     setHasSeenIntro(false);
   };
 

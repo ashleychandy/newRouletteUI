@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCoinFlipContract } from './useCoinFlipContract';
+import { useRouletteContract } from './useRouletteContract';
 import { useWallet } from '../components/wallet/WalletProvider';
 import { useNotification } from '../contexts/NotificationContext';
 import { useEffect } from 'react';
@@ -7,7 +7,7 @@ import { safeContractCall } from '../utils/contractUtils';
 import { ethers } from 'ethers';
 
 export const useContractState = () => {
-  const { contract } = useCoinFlipContract();
+  const { contract } = useRouletteContract();
   const { account } = useWallet();
   const queryClient = useQueryClient();
   const { addToast } = useNotification();

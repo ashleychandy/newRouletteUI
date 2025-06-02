@@ -13,7 +13,7 @@ import {
   faPlayCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { useBetHistory } from '../../hooks/useBetHistory';
-import { useCoinFlipContract } from '../../hooks/useCoinFlipContract';
+import { useRouletteContract } from '../../hooks/useRouletteContract';
 import { useWallet } from '../wallet/WalletProvider';
 import EmptyState from './EmptyState';
 import GameHistoryItem from './GameHistoryItem';
@@ -192,8 +192,8 @@ const WelcomeNewUser = () => (
 
 const GameHistory = ({ account, onError, hideHeading = false }) => {
   const [filter, setFilter] = useState('all');
-  const { contract: CoinFlipContract, isLoading: isContractLoading } =
-    useCoinFlipContract();
+  const { contract: RouletteContract, isLoading: isContractLoading } =
+    useRouletteContract();
   const { isWalletConnected } = useWallet();
 
   // Get isNewUser state from polling service
@@ -216,7 +216,7 @@ const GameHistory = ({ account, onError, hideHeading = false }) => {
     playerAddress: account,
     pageSize: 12,
     autoRefresh: true,
-    CoinFlipContract,
+    RouletteContract,
   });
 
   // Handle any errors
@@ -319,15 +319,15 @@ const GameHistory = ({ account, onError, hideHeading = false }) => {
 
   // Check if contract is available and has the necessary methods
   const contractHasRequiredMethods = useMemo(() => {
-    if (!CoinFlipContract) return false;
+    if (!RouletteContract) return false;
 
     const _hasGetGameStatus =
-      typeof CoinFlipContract.getGameStatus === 'function';
+      typeof RouletteContract.getGameStatus === 'function';
     const hasGetBetHistory =
-      typeof CoinFlipContract.getBetHistory === 'function';
+      typeof RouletteContract.getBetHistory === 'function';
 
     return hasGetBetHistory;
-  }, [CoinFlipContract]);
+  }, [RouletteContract]);
 
   // We no longer use sample data
   const _shouldUseSampleData = useMemo(() => {
@@ -404,10 +404,10 @@ const GameHistory = ({ account, onError, hideHeading = false }) => {
     return <GameHistoryLoader />;
   }
 
-  if (!CoinFlipContract) {
+  if (!RouletteContract) {
     return (
       <GameHistoryError
-        error={new Error('CoinFlip contract not initialized')}
+        error={new Error('Roulette contract not initialized')}
         resetError={forceRefresh}
       />
     );

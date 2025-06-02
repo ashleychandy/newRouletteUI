@@ -1,6 +1,6 @@
 # XDC GAMA FLIP
 
-A decentralized CoinFlip game running on the XDC blockchain.
+A decentralized Roulette game running on the XDC blockchain.
 
 ## Project Structure
 
@@ -8,7 +8,7 @@ A decentralized CoinFlip game running on the XDC blockchain.
 src/
 ├── assets/           # Static assets like images, fonts, etc.
 ├── components/       # React components
-│   ├── CoinFlip/         # CoinFlip game specific components
+│   ├── Roulette/         # Roulette game specific components
 │   ├── error/        # Error handling components
 │   ├── layout/       # Layout components
 │   ├── routes/       # Routing components
@@ -76,9 +76,9 @@ VITE_XDC_APOTHEM_RPC=https://rpc.apothem.network
 
 # Contract addresses - REQUIRED for the application to function properly
 VITE_TOKEN_ADDRESS=your_mainnet_token_address
-VITE_CoinFlip_ADDRESS=your_mainnet_CoinFlip_address
+VITE_Roulette_ADDRESS=your_mainnet_Roulette_address
 VITE_APOTHEM_TOKEN_ADDRESS=your_testnet_token_address
-VITE_APOTHEM_CoinFlip_ADDRESS=your_testnet_CoinFlip_address
+VITE_APOTHEM_Roulette_ADDRESS=your_testnet_Roulette_address
 
 
 

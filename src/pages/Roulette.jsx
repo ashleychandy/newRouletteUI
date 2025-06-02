@@ -12,16 +12,16 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Import components
-import BalancePanel from '../components/CoinFlip/BalancePanel.jsx';
-import BetInput from '../components/CoinFlip/BetInput.jsx';
-import CoinFlipVisualizer from '../components/CoinFlip/CoinFlipVisualizer.jsx';
-import LatestBet from '../components/CoinFlip/LatestBet.jsx';
-import GameHistory from '../components/CoinFlip/GameHistory.jsx';
-import NumberSelector from '../components/CoinFlip/NumberSelector.jsx';
+import BalancePanel from '../components/Roulette/BalancePanel.jsx';
+import BetInput from '../components/Roulette/BetInput.jsx';
+import RouletteVisualizer from '../components/Roulette/RouletteVisualizer.jsx';
+import LatestBet from '../components/Roulette/LatestBet.jsx';
+import GameHistory from '../components/Roulette/GameHistory.jsx';
+import NumberSelector from '../components/Roulette/NumberSelector.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import { VrfRecoveryModal } from '../components/vrf/index.jsx';
 import { useWallet } from '../components/wallet/WalletProvider.jsx';
-import ApprovalGuide from '../components/CoinFlip/ApprovalGuide.jsx';
+import ApprovalGuide from '../components/Roulette/ApprovalGuide.jsx';
 
 // Import custom hooks
 import useGameLogic from '../hooks/useGameLogic.js';
@@ -116,7 +116,7 @@ const WelcomeBanner = ({ onConnectClick }) => (
   </motion.div>
 );
 
-const CoinFlipPage = ({ contracts, account, onError, addToast }) => {
+const RoulettePage = ({ contracts, account, onError, addToast }) => {
   const [lastBetAmount, setLastBetAmount] = useState(null);
   const [lastBetDetails, setLastBetDetails] = useState(null);
   const queryClient = useQueryClient();
@@ -497,7 +497,7 @@ const CoinFlipPage = ({ contracts, account, onError, addToast }) => {
 
           {/* Right column */}
           <div className="lg:col-span-5 space-y-6">
-            {/* CoinFlip Visualizer */}
+            {/* Roulette Visualizer */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -507,7 +507,7 @@ const CoinFlipPage = ({ contracts, account, onError, addToast }) => {
             >
               <div className="flex flex-col items-center justify-center">
                 <div className="w-full flex items-center justify-center">
-                  <CoinFlipVisualizer
+                  <RouletteVisualizer
                     isRolling={gameState.isRolling}
                     result={gameState.lastResult}
                     chosenNumber={chosenNumber}
@@ -581,7 +581,7 @@ const CoinFlipPage = ({ contracts, account, onError, addToast }) => {
                 <div className="px-6 pb-6">
                   <GameHistory
                     account={account}
-                    CoinFlipContract={contracts?.CoinFlip}
+                    RouletteContract={contracts?.Roulette}
                     onError={onError}
                     hideHeading={true}
                   />
@@ -918,4 +918,4 @@ const CoinFlipPage = ({ contracts, account, onError, addToast }) => {
   );
 };
 
-export default CoinFlipPage;
+export default RoulettePage;

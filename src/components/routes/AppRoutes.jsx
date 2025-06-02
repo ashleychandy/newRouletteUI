@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import CoinFlipPage from '../../pages/CoinFlip.jsx';
+import RoulettePage from '../../pages/Roulette.jsx';
 import { useWallet } from '../wallet/WalletProvider';
 import { useNotification } from '../../contexts/NotificationContext.jsx';
 import LoadingSpinner from '../ui/LoadingSpinner.jsx';
@@ -38,15 +38,15 @@ const AppRoutes = () => {
     }
   }, [chainId, account, addToast]);
 
-  // Create a properly structured contracts object for the CoinFlipPage
+  // Create a properly structured contracts object for the RoulettePage
   // with safeguards against missing contracts
   const mappedContracts = useMemo(() => {
     // Handle case where contracts is null/undefined
     if (!contracts) {
-      return { token: null, CoinFlip: null };
+      return { token: null, Roulette: null };
     }
 
-    let CoinFlipContract = null;
+    let RouletteContract = null;
     let tokenContract = null;
 
     // Handle different contract structure formats
@@ -56,15 +56,15 @@ const AppRoutes = () => {
       tokenContract = contracts.token;
     }
 
-    if (contracts?.CoinFlipContract) {
-      CoinFlipContract = contracts.CoinFlipContract;
-    } else if (contracts?.CoinFlip) {
-      CoinFlipContract = contracts.CoinFlip;
+    if (contracts?.RouletteContract) {
+      RouletteContract = contracts.RouletteContract;
+    } else if (contracts?.Roulette) {
+      RouletteContract = contracts.Roulette;
     }
 
     return {
       token: tokenContract,
-      CoinFlip: CoinFlipContract,
+      Roulette: RouletteContract,
     };
   }, [contracts]);
 
@@ -86,7 +86,7 @@ const AppRoutes = () => {
     }
 
     // Show warning if no contracts are available
-    if (!mappedContracts.token && !mappedContracts.CoinFlip) {
+    if (!mappedContracts.token && !mappedContracts.Roulette) {
       if (account && !contractCheckDone) {
         // Show network-specific error message
         if (networkName === 'unknown') {
@@ -112,7 +112,7 @@ const AppRoutes = () => {
     }
 
     // Show specific warnings for missing contracts
-    if (!mappedContracts.token && mappedContracts.CoinFlip) {
+    if (!mappedContracts.token && mappedContracts.Roulette) {
       if (account && !contractCheckDone) {
         addToast(
           'Token contract not available. Some features may not work.',
@@ -122,10 +122,10 @@ const AppRoutes = () => {
       }
     }
 
-    if (mappedContracts.token && !mappedContracts.CoinFlip) {
+    if (mappedContracts.token && !mappedContracts.Roulette) {
       if (account && !contractCheckDone) {
         addToast(
-          'CoinFlip contract not available. Game features will not work.',
+          'Roulette contract not available. Game features will not work.',
           'error'
         );
         setContractCheckDone(true);
@@ -133,7 +133,7 @@ const AppRoutes = () => {
     }
 
     // If we have both contracts, reset the check flag
-    if (mappedContracts.token && mappedContracts.CoinFlip) {
+    if (mappedContracts.token && mappedContracts.Roulette) {
       setContractCheckDone(false);
     }
   }, [
@@ -177,24 +177,24 @@ const AppRoutes = () => {
 
     // Check if the expected contract addresses match the current network
     if (NETWORK_CONFIG?.[networkName]?.contracts) {
-      const expectedCoinFlipAddress =
-        NETWORK_CONFIG[networkName].contracts.CoinFlip;
+      const expectedRouletteAddress =
+        NETWORK_CONFIG[networkName].contracts.Roulette;
       const expectedTokenAddress = NETWORK_CONFIG[networkName].contracts.token;
 
-      const currentCoinFlipAddress =
-        mappedContracts.CoinFlip?.address || mappedContracts.CoinFlip?.target;
+      const currentRouletteAddress =
+        mappedContracts.Roulette?.address || mappedContracts.Roulette?.target;
       const currentTokenAddress =
         mappedContracts.token?.address || mappedContracts.token?.target;
 
       // If we have expected addresses but they don't match the current contract addresses
       if (
-        expectedCoinFlipAddress &&
-        currentCoinFlipAddress &&
-        expectedCoinFlipAddress.toLowerCase() !==
-          currentCoinFlipAddress.toLowerCase()
+        expectedRouletteAddress &&
+        currentRouletteAddress &&
+        expectedRouletteAddress.toLowerCase() !==
+          currentRouletteAddress.toLowerCase()
       ) {
         addToast(
-          "CoinFlip contract address doesn't match the current network. Please check your wallet connection.",
+          "Roulette contract address doesn't match the current network. Please check your wallet connection.",
           'warning'
         );
       }
@@ -217,7 +217,7 @@ const AppRoutes = () => {
     walletLoading ||
     (isWalletConnected &&
       account &&
-      !mappedContracts.CoinFlip &&
+      !mappedContracts.Roulette &&
       !mappedContracts.token &&
       !contractCheckDone)
   ) {
@@ -248,7 +248,7 @@ const AppRoutes = () => {
       <Route
         path="/"
         element={
-          <CoinFlipPage
+          <RoulettePage
             contracts={mappedContracts}
             account={account}
             onError={handleErrorWithToast}

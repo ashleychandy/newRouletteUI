@@ -107,13 +107,13 @@ export const useGameState = () => {
       [stats, constants]
     ),
 
-    isValidCoinFlipNumber: useCallback(
+    isValidRouletteNumber: useCallback(
       number => {
         if (!number) return false;
         const num = Number(number);
         return (
-          num >= constants.MIN_CoinFlip_NUMBER &&
-          num <= constants.MAX_CoinFlip_NUMBER
+          num >= constants.MIN_Roulette_NUMBER &&
+          num <= constants.MAX_Roulette_NUMBER
         );
       },
       [constants]

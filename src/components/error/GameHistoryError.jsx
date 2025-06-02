@@ -12,7 +12,7 @@ const GameHistoryError = ({ error, resetError }) => {
     }
 
     // Handle specific error messages
-    if (error?.message?.includes('CoinFlip contract not initialized')) {
+    if (error?.message?.includes('Roulette contract not initialized')) {
       return 'Game data will be available after connecting to the network';
     }
 

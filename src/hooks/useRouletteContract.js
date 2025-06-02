@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useWallet } from '../components/wallet/WalletProvider';
 import { ethers } from 'ethers';
 import { useNetwork } from '../contexts/NetworkContext';
-import CoinFlipABI from '../contracts/abi/CoinFlip.json';
+import RouletteABI from '../contracts/abi/Roulette.json';
 import TokenABI from '../contracts/abi/GamaToken.json';
 
-export const useCoinFlipContract = () => {
+export const useRouletteContract = () => {
   const { provider, account } = useWallet();
   const { currentNetwork } = useNetwork();
   const [contract, setContract] = useState(null);
@@ -25,15 +25,15 @@ export const useCoinFlipContract = () => {
         }
 
         // Handle both address structures
-        const CoinFlipAddress =
-          currentNetwork.contracts?.CoinFlip || currentNetwork.CoinFlipAddress;
+        const RouletteAddress =
+          currentNetwork.contracts?.Roulette || currentNetwork.RouletteAddress;
         const tokenAddress =
           currentNetwork.contracts?.token || currentNetwork.tokenAddress;
 
-        if (!CoinFlipAddress) {
+        if (!RouletteAddress) {
           setError(
             new Error(
-              `CoinFlip contract address not configured for network: ${currentNetwork.name}`
+              `Roulette contract address not configured for network: ${currentNetwork.name}`
             )
           );
           setContract(null);
@@ -51,18 +51,18 @@ export const useCoinFlipContract = () => {
           ? await provider.getSigner()
           : provider;
 
-        // Initialize CoinFlip contract
+        // Initialize Roulette contract
         try {
-          const CoinFlipContract = new ethers.Contract(
-            CoinFlipAddress,
-            CoinFlipABI.abi,
+          const RouletteContract = new ethers.Contract(
+            RouletteAddress,
+            RouletteABI.abi,
             signer
           );
-          setContract(CoinFlipContract);
-        } catch (CoinFlipError) {
+          setContract(RouletteContract);
+        } catch (RouletteError) {
           setError(
             new Error(
-              `CoinFlip contract initialization failed: ${CoinFlipError.message}`
+              `Roulette contract initialization failed: ${RouletteError.message}`
             )
           );
           setContract(null);

@@ -78,11 +78,11 @@ module.exports = {
         float: 'float 3s ease-in-out infinite',
         'glow-pulse': 'glowPulse 2s ease-in-out infinite',
         'number-change': 'numberChange 0.3s ease-out',
-        'CoinFlip-roll': 'CoinFlipRoll 1s ease-out',
+        'Roulette-roll': 'RouletteRoll 1s ease-out',
         'slide-up': 'slideUp 0.5s ease-out',
         'slide-down': 'slideDown 0.5s ease-out',
-        'CoinFlip-bounce': 'CoinFlipBounce 0.5s ease-in-out',
-        'CoinFlip-shake': 'CoinFlipShake 0.5s ease-in-out',
+        'Roulette-bounce': 'RouletteBounce 0.5s ease-in-out',
+        'Roulette-shake': 'RouletteShake 0.5s ease-in-out',
         'number-pop': 'numberPop 0.3s ease-out',
         'result-fade': 'resultFade 0.5s ease-in-out',
         'fade-in': 'fadeIn 0.3s ease-in-out',
@@ -103,7 +103,7 @@ module.exports = {
           '0%': { transform: 'scale(1.2)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
-        CoinFlipRoll: {
+        RouletteRoll: {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
@@ -115,11 +115,11 @@ module.exports = {
           '0%': { transform: 'translateY(-20px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
-        CoinFlipBounce: {
+        RouletteBounce: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-20px)' },
         },
-        CoinFlipShake: {
+        RouletteShake: {
           '0%, 100%': { transform: 'rotate(0deg)' },
           '25%': { transform: 'rotate(-15deg)' },
           '75%': { transform: 'rotate(15deg)' },

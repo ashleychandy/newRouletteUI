@@ -9,7 +9,7 @@ import {
 } from '../utils/contractUtils';
 import { useLoadingState } from './useLoadingState';
 import { useErrorHandler } from './useErrorHandler';
-import { useCoinFlipContract } from './useCoinFlipContract';
+import { useRouletteContract } from './useRouletteContract';
 import { useWallet } from '../components/wallet/WalletProvider';
 import { useContractState } from './useContractState';
 import { useContractStats } from './useContractStats';
@@ -141,7 +141,7 @@ const setupSafetyTimeout = (timeoutRef, callback, timeoutMs = 60000) => {
 };
 
 /**
- * Custom hook for CoinFlip game logic
+ * Custom hook for Roulette game logic
  * @param {Object} contracts - Contract instances
  * @param {String} account - User's account
  * @param {Function} onError - Error handler
@@ -152,11 +152,11 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
   const queryClient = useQueryClient();
   const operationInProgress = useRef(false);
   const safetyTimeoutRef = useRef(null);
-  const coinFlipTimeoutRef = useRef(null);
+  const RouletteTimeoutRef = useRef(null);
   const [isApproving, setIsApproving] = useState(false);
   const [isBetting, withBetting] = useLoadingState(false);
   const handleError = useErrorHandler(onError, addToast);
-  const { contract: _contract } = useCoinFlipContract();
+  const { contract: _contract } = useRouletteContract();
   const { account: walletAccount } = useWallet();
   const [isProcessing, _setIsProcessing] = useState(false);
   const [error, _setError] = useState(null);
@@ -250,7 +250,7 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
   // Add effect to detect and handle contract changes
   useEffect(() => {
     // When contracts change (typically after account change), we need to reset states
-    if (contracts?.token && contracts?.CoinFlip && walletAccount) {
+    if (contracts?.token && contracts?.Roulette && walletAccount) {
       // Reset operation flags
       operationInProgress.current = false;
 
@@ -281,8 +281,8 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
           contracts.token
             .allowance(
               walletAccount,
-              contracts.CoinFlip?.address ||
-                contracts.CoinFlip?.target ||
+              contracts.Roulette?.address ||
+                contracts.Roulette?.target ||
                 ethers.ZeroAddress
             )
             .catch(err => {
@@ -321,10 +321,10 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
 
   // Handle approving tokens with optimistic updates
   const handleApproveToken = useCallback(async () => {
-    if (!contracts?.token || !contracts?.CoinFlip || !walletAccount) {
+    if (!contracts?.token || !contracts?.Roulette || !walletAccount) {
       const errorMessage = !contracts?.token
         ? 'Token contract not connected'
-        : !contracts?.CoinFlip
+        : !contracts?.Roulette
           ? 'Game contract not connected'
           : 'Wallet not connected';
 
@@ -372,9 +372,9 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
         // Silently handle network error
       }
 
-      // Get the CoinFlip contract address (target for v6 ethers, address for v5)
-      const CoinFlipContractAddress =
-        contracts.CoinFlip.target || contracts.CoinFlip.address;
+      // Get the Roulette contract address (target for v6 ethers, address for v5)
+      const RouletteContractAddress =
+        contracts.Roulette.target || contracts.Roulette.address;
 
       // Show initial toast
       addToast('Starting token approval process...', 'info');
@@ -383,7 +383,7 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
       // Use maxRetries=2 for up to 3 total attempts (initial + 2 retries)
       const success = await checkAndApproveToken(
         contracts.token,
-        CoinFlipContractAddress,
+        RouletteContractAddress,
         walletAccount,
         isProcessing => setProcessingState(isProcessing),
         addToast,
@@ -486,7 +486,7 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
 
   // Handle placing a bet with improved error handling and race condition prevention
   const handlePlaceBet = useCallback(async () => {
-    if (!contracts?.CoinFlip || !walletAccount) {
+    if (!contracts?.Roulette || !walletAccount) {
       addToast({
         title: 'Connection Error',
         description: 'Cannot place bet: wallet or contract connection issue',
@@ -496,8 +496,8 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
     }
 
     // Ensure we're using up-to-date contract instances
-    if (walletAccount && contracts?.CoinFlip?.signer) {
-      const currentSigner = await contracts.CoinFlip.signer
+    if (walletAccount && contracts?.Roulette?.signer) {
+      const currentSigner = await contracts.Roulette.signer
         .getAddress()
         .catch(() => null);
 
@@ -579,9 +579,9 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
         setRollingState(true);
 
         // Clear any existing timeout
-        if (coinFlipTimeoutRef.current) {
-          clearTimeout(coinFlipTimeoutRef.current);
-          coinFlipTimeoutRef.current = null;
+        if (RouletteTimeoutRef.current) {
+          clearTimeout(RouletteTimeoutRef.current);
+          RouletteTimeoutRef.current = null;
         }
 
         // Setup safety timeout
@@ -603,10 +603,10 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
         try {
           // Check contract availability
           if (
-            !contracts.CoinFlip ||
-            typeof contracts.CoinFlip.flipCoin !== 'function'
+            !contracts.Roulette ||
+            typeof contracts.Roulette.flipCoin !== 'function'
           ) {
-            throw new Error('CoinFlip contract is not properly initialized');
+            throw new Error('Roulette contract is not properly initialized');
           }
 
           // Balance verification with fresh data
@@ -646,7 +646,7 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
           let tx;
           try {
             // Call the flipCoin function with the chosen side (1=HEADS, 2=TAILS) and bet amount
-            tx = await contracts.CoinFlip.flipCoin(
+            tx = await contracts.Roulette.flipCoin(
               chosenNumber, // Use chosenNumber directly (1 or 2)
               betAmount,
               txOptions
@@ -691,7 +691,7 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
               try {
                 // Check game status from contract
                 const gameStatus =
-                  await contracts.CoinFlip.getGameStatus(walletAccount);
+                  await contracts.Roulette.getGameStatus(walletAccount);
 
                 // If the game is completed, reset processing state
                 if (!gameStatus.isActive || gameStatus.isCompleted) {
@@ -708,7 +708,7 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
                 }
 
                 // If still active and not completed, check again in a few seconds
-                coinFlipTimeoutRef.current = setTimeout(pollForVrfResult, 5000);
+                RouletteTimeoutRef.current = setTimeout(pollForVrfResult, 5000);
               } catch (error) {
                 // In case of error, reset processing state to allow new bets
                 operationInProgress.current = false;
@@ -719,7 +719,7 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
             };
 
             // Start polling for VRF result
-            coinFlipTimeoutRef.current = setTimeout(pollForVrfResult, 5000);
+            RouletteTimeoutRef.current = setTimeout(pollForVrfResult, 5000);
           } catch (confirmError) {
             handleContractError(confirmError, addToast);
             clearSafetyTimeout();
@@ -819,9 +819,9 @@ export const useGameLogic = (contracts, account, onError, addToast) => {
       }
 
       // Clean up coin flip timeout
-      if (coinFlipTimeoutRef.current) {
-        clearTimeout(coinFlipTimeoutRef.current);
-        coinFlipTimeoutRef.current = null;
+      if (RouletteTimeoutRef.current) {
+        clearTimeout(RouletteTimeoutRef.current);
+        RouletteTimeoutRef.current = null;
       }
     };
   }, []);

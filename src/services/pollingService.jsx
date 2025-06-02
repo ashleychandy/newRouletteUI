@@ -12,7 +12,7 @@ export const PollingContext = createContext(null);
 
 export const PollingProvider = ({
   children,
-  CoinFlipContract,
+  RouletteContract,
   account,
   activeGameInterval = 2000, // Poll more frequently during active games
   inactiveInterval = 10000, // Poll less frequently when idle
@@ -32,15 +32,15 @@ export const PollingProvider = ({
 
   // Use refs for values we need to access in effects but don't want to cause re-renders
   const isNewUserRef = useRef(gameData.isNewUser);
-  const CoinFlipContractRef = useRef(CoinFlipContract);
+  const RouletteContractRef = useRef(RouletteContract);
   const accountRef = useRef(account);
 
   // Update refs when dependencies change
   useEffect(() => {
     isNewUserRef.current = gameData.isNewUser;
-    CoinFlipContractRef.current = CoinFlipContract;
+    RouletteContractRef.current = RouletteContract;
     accountRef.current = account;
-  }, [gameData.isNewUser, CoinFlipContract, account]);
+  }, [gameData.isNewUser, RouletteContract, account]);
 
   // Determine current polling interval based on game state
   const currentPollingInterval = hasActiveGame
@@ -49,7 +49,7 @@ export const PollingProvider = ({
 
   // Fetch data from blockchain
   const fetchData = useCallback(async () => {
-    const currentContract = CoinFlipContractRef.current;
+    const currentContract = RouletteContractRef.current;
     const currentAccount = accountRef.current;
 
     if (!currentContract || !currentAccount) {
