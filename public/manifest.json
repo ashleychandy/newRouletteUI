@@ -1,0 +1,15 @@
+{
+  "short_name": "GAMA FLIP",
+  "name": "GAMA FLIP",
+  "icons": [
+    {
+      "src": "assets/gama-logo-mark.svg",
+      "sizes": "310x310",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1F2937",
+  "background_color": "#ffffff"
+}
